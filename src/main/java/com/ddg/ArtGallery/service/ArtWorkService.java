@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class ArtWorkService {
@@ -19,5 +20,30 @@ public class ArtWorkService {
         artwork.setImageType(imageFile.getContentType());
         artwork.setImageData(imageFile.getBytes());
         return artWorkRepo.save(artwork);
+    }
+
+    public List<ArtWork> getAllArtWorks() {
+        return artWorkRepo.findAll();
+    }
+
+    public ArtWork getArtWork(int id) {
+        return artWorkRepo.findById(id).orElseThrow(() -> new RuntimeException("Artwork not found for id: " + id));
+    }
+
+    public void deleteArtWork(int id) {
+        artWorkRepo.findById(id).orElseThrow(() -> new RuntimeException("Artwork not found for id: " + id));
+        artWorkRepo.deleteById(id);
+    }
+
+    public void updateArtWork(int id, ArtWork artWork, MultipartFile imageFile) throws IOException {
+        ArtWork existingArtWork = artWorkRepo.findById(id).orElseThrow(() -> new RuntimeException("Artwork not found for id: " + id));
+        existingArtWork.setTitle(artWork.getTitle());
+        existingArtWork.setArtist(artWork.getArtist());
+        existingArtWork.setMedium(artWork.getMedium());
+        existingArtWork.setYear(artWork.getYear());
+        existingArtWork.setImageName(imageFile.getOriginalFilename());
+        existingArtWork.setImageType(imageFile.getContentType());
+        existingArtWork.setImageData(imageFile.getBytes());
+        artWorkRepo.save(existingArtWork);
     }
 }
