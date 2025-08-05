@@ -68,4 +68,13 @@ public class ArtWorkController {
         }
     }
 
+    @GetMapping("/artwork/search")
+    public ResponseEntity<?> searchArtWorks(@RequestParam String keyword) {
+        try {
+            List<ArtWork> artWorks = artWorkService.searchArtWorks(keyword);
+            return new ResponseEntity<>(artWorks, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
 }

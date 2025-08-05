@@ -46,4 +46,12 @@ public class ArtWorkService {
         existingArtWork.setImageData(imageFile.getBytes());
         artWorkRepo.save(existingArtWork);
     }
+
+    public List<ArtWork> searchArtWorks(String keyword) {
+        List<ArtWork> artWorks = artWorkRepo.searchArtWorks(keyword);
+        if (artWorks.isEmpty()) {
+            throw new RuntimeException("No Artworks found for keyword: " + keyword);
+        }
+        return artWorks;
+    }
 }
