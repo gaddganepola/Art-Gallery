@@ -41,9 +41,11 @@ public class ArtWorkService {
         existingArtWork.setArtist(artWork.getArtist());
         existingArtWork.setMedium(artWork.getMedium());
         existingArtWork.setYear(artWork.getYear());
-        existingArtWork.setImageName(imageFile.getOriginalFilename());
-        existingArtWork.setImageType(imageFile.getContentType());
-        existingArtWork.setImageData(imageFile.getBytes());
+        if (imageFile != null) {
+            existingArtWork.setImageName(imageFile.getOriginalFilename());
+            existingArtWork.setImageType(imageFile.getContentType());
+            existingArtWork.setImageData(imageFile.getBytes());
+        }
         artWorkRepo.save(existingArtWork);
     }
 
